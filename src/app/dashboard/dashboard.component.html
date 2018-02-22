@@ -1,0 +1,14 @@
+<section class="container">
+  <div class="left-half">
+    <article>
+      <h1 (click)="searchFlight()">Left Half</h1>
+      <p>Weekends don't count unless you spend them doing something completely pointless.</p>
+    </article>
+  </div>
+  <div class="right-half">
+    <article>
+      <h1>Right Half</h1>
+      <div *ngFor="let item of searchResult" > {{item.airline }} </div>
+    </article>
+  </div>
+</section>

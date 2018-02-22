@@ -1,0 +1,43 @@
+section {
+    color: #fff;
+    text-align: center;
+      
+  div {
+    height: 100%;
+
+  
+  article {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    transform: translate(-25%, -10%);
+    width: 100%;
+    padding: 20px;
+  }
+}
+}
+  
+  h1 {
+    font-size: 1.75rem;
+    margin: 0 0 0.75rem 0;
+  }
+  
+  /* Pattern styles */
+  .container {
+    display: table;
+    width: 100%;
+  }
+  
+  .left-half {
+    background-color: #35210b;
+    position: absolute;
+    left: 0px;
+    width: 30%;
+  }
+  
+  .right-half {
+    background-color: #b6b4b1;
+    position: absolute;
+    right: 0px;
+    width: 70%;
+  }
