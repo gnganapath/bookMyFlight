@@ -1,36 +1,58 @@
-<section class="container">
-  <div class="left-half">
-    <article>
-      
-      <form>
-        <div style="display:inline;">
-              <button class="button">Journey</button>
-              <button class="button-seconday">Return</button>
-        </div>        
-        <div>
-            <input type="text" name="default" id="orgin" class="luci-form__input" placeholder="Enter Origin"> 
+<section class="Result-container">
+    <div class="left-half">
+        <aside>
+            <div style="display:inline;">
+                <button class="button"  >One way</button>
+                <button class="button-seconday">Return</button>
+            </div>        
+            <div>
+                <input type="text"  class="tw-form__input" placeholder="Enter Origin" [formControl]="originCtrl"> 
+            </div>
+            <div>
+                <input type="text"  class="tw-form__input" placeholder="Enter Destination" [formControl]= "destCtrl"> 
+            </div>
+            <div>
+                <input class="tw-form__input"  placeholder="Departure Date" ngx-mydatepicker name="mydate"
+                        [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" (click)="dp.toggleCalendar()" [formControl]="dateCtrl"/>  
+            </div>
+            <div>
+                <input type="text" name="default" id="passenger" class="tw-form__input" placeholder="Passenger" [formControl]="passgenCtrl"> 
+            </div>
+            <div>
+                <input type="button" name="submit" class="sumit-btn"  (click)="searchFlight()" value="Search"/>
         </div>
-        <div>
-            <input type="text" name="default" id="destination" class="luci-form__input" placeholder="Enter Destination"> 
-        </div>
-        <div class="input-group">
-            <input class="luci-form__input"  placeholder="Departure Date" ngx-mydatepicker name="mydate"
-                    [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" (click)="dp.toggleCalendar()"/>   
-                    <!-- [(ngModel)]="model" -->
-        </div>
-        <div>
-            <input type="text" name="default" id="passenger" class="luci-form__input" placeholder="Passenger"> 
-        </div>
-        <div>
-            <input type="button" name="submit" class="sumit-btn"  (click)="searchFlight()" value="Search"/>
-       </div>
-    </form>
-    </article>
-  </div>
-  <div class="right-half">
-    <article>
-      <h1>Right Half</h1>
-      <div *ngFor="let item of searchResult" > {{item.airline }} </div>
-    </article>
+       </aside>
+   </div>
+   <div class="right-half">        
+      <div class="shadowHead">
+          <div class="flex1">Origin > Destination </div>
+          <div class="flex2"> 
+             <div> Depart : 21st Feb 2016</div>
+             <div> Return : 21st Feb 2016</div>
+          </div>
+      </div>
+      <!-- <div *ngFor="let item of searchResult" > {{item.airline }} </div> -->
+      <div class="resultCard">
+          <div class="priceRow"> Rs 9,500.00 </div>
+          <div class="flexTourDetails">
+              <div class="flexOneWay">
+                  <div class="flightNo">AI- 202</div>
+                  <div class="flightFromTo">PNQ > DEL</div>
+                  <div>Depart: 10 AM</div>
+                  <div>Arrive: 12:00 PM</div>
+              </div>
+              <div class="flexReturn">
+                    <div class="flightNo">AI- 203</div>
+                    <div class="flightFromTo">DEL > PNQ </div>
+                    <div>Depart: 10 AM</div>
+                    <div>Arrive: 12:00 PM</div>
+                </div>
+                <div class="flexBookticket">                    
+                    <input type="button" name="submit" class="bookTicket-btn"  (click)="searchFlight()" value="Book This Flight"/>
+                </div>
+
+          </div>
+      </div>
+   
   </div>
 </section>

@@ -23,9 +23,9 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
+    AppRoutingModule,  
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     BrowserAnimationsModule,

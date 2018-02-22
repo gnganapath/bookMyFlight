@@ -1,115 +1,181 @@
-section {
-    color: #fff;
-    text-align: center;
-      
-  div {
-    height: 100%;
+@import url('https://fonts.googleapis.com/css?family=Patua+One');
 
-  
-  article {
-    position: absolute;
-    top: 10%;
-    left: 20%;
-    transform: translate(-25%, -10%);
-    width: 100%;
-    padding: 20px;
+ %buttonClass{  
+        font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        background:#301009;
+        border-radius: 5px;
+        color: #FFFFFF;
+        display: inline-block;
+        font-size: 16px;
+        padding: 5px 15px;
+        text-align: center;
+        text-transform: uppercase;
+}
+
+%buttonSecondaryClass{
+      font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
+      text-transform: none;
+      background: #35210b;
+      border-radius: 5px;
+      color: #ffffff;
+      cursor: pointer;
+      font-family: "Source Sans Pro", sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: 0.5;
+      line-height: 1.25;
+      padding: 5px 15px;
+      display: inline-block;
+}
+
+%submitBookBtnClass{
+      font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
+      text-transform: none;
+      background: orangered;
+      border-radius: 5px;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: 0.5;
+      line-height: 1.25;
+      padding: 5px 15px;
+      display: inline-block;
+}
+
+%input_formClass{
+      font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 1.5;
+      text-align: left;
+      text-indent: 0;
+      text-shadow: none;
+      text-transform: none;
+      background: #FFFFFF;
+      border: solid 1px #D7D7D7;
+      border-radius: 5px;
+      color: #454545;
+      display: block;
+      font-size: 16px;
+      margin: 0 0 8px;
+      padding: 8px 12px;
+      width: 70%;
+      margin:1% 15%;
+}
+%flexOneReturn{
+  flex:1;
+  font-weight: bolder;
+  line-height: 25px;
+  .flightNo{
+    font-size:14px;
+  }
+  .flightFromTo{
+    font-size:18px;
+    font-weight: 550;
+    margin-bottom:5px;
+  }
+  font-size:16px;
+}
+
+section.Result-container{
+  display:flex;
+  font-family: 'Patua One', cursive;
+  div.left-half{
+        flex:3;
+        height:100vh;
+        text-align: center;
+        background: #441208;
+        .tw-form__input {
+            @extend %input_formClass;      
+        }
+        .button{  
+          @extend %buttonClass;
+        }        
+        .button-seconday{
+          @extend %buttonSecondaryClass;      
+        }        
+        .sumit-btn{
+          @extend %submitBookBtnClass;
+        }      
+        div.ngxmdp div.selector {
+          position: absolute !important;
+          left: 100px !important;
+          top: 219px !important;
+        }
+        ngx-my-date-picker{
+          position: absolute !important;
+        }
+  }
+  div.right-half{ 
+      flex:7;
+      height:100vh;     
+      background:#FAFAFA;
+      color:#454545;
+      div.shadowHead{
+              margin:10px;
+              padding: 20px 5px 5px 15px;
+              border-bottom: 3px solid #DFDFDF;;
+              height:50px;
+              display: -webkit-flex;
+              display: flex;
+        .flex1 {
+              -webkit-flex: 1;
+              flex: 1;
+              justify-content: flex-start;
+              align-self:center;
+              font-size: 24px;
+              font-weight: bold;
+        }
+        .flex2 {
+              -webkit-flex: 1;
+              flex: 1;
+              text-align: right;
+              font-size:14px;
+              line-height: 20px;
+              padding: 10px 0px 0px 0px;
+              font-weight: 550;
+        }
+      }
+
+      div.resultCard{
+        margin:10px;
+        padding: 20px 10px 5px 0px;
+        border-radius:5px;
+        border:2px  solid #DFDFDF;
+        div.priceRow{
+          font-size: 24px;
+          font-weight: bold;
+          padding: 5px 20px;
+        }
+        div.flexTourDetails{
+          display: flex;
+          flex-flow: row wrap;
+          justify-content: space-around;
+          padding: 15px 20px 5px 20px;
+
+          div.flexOneWay{
+           @extend %flexOneReturn;
+          }
+          div.flexReturn{
+            @extend %flexOneReturn;
+          }
+          div.flexBookticket{
+              flex: 1;
+              text-align: right;
+              .bookTicket-btn{
+                @extend %submitBookBtnClass;
+                text-transform: uppercase;
+              }
+          }
+
+        }
+      }
   }
 }
-}
-  
-  h1 {
-    font-size: 1.75rem;
-    margin: 0 0 0.75rem 0;
-  }
-  
-  /* Pattern styles */
-  .container {
-    display: table;
-    width: 100%;
-  }
-  
-  .left-half {
-    background-color: #35210b;
-    position: absolute;
-    left: 0px;
-    width: 30%;
-  }
-  
-  .right-half {
-    background-color: #b6b4b1;
-    position: absolute;
-    right: 0px;
-    width: 70%;
-  }
-  .luci-form__input {
-    font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.5;
-    text-align: left;
-    text-indent: 0;
-    text-shadow: none;
-    text-transform: none;
-    background: #FFFFFF;
-    border: solid 1px #D7D7D7;
-    border-radius: 5px;
-    color: #454545;
-    display: block;
-    font-size: 16px;
-    margin: 0 0 8px;
-    padding: 8px 12px;
-    width: 70%;
-    margin:1% 15%;
 
-}
-.button{
-
-    font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    background:#301009;
-    border-radius: 5px;
-    color: #FFFFFF;
-    display: inline-block;
-    font-size: 16px;
-    padding: 12px 32px;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-.button-seconday{
-  font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
-    text-transform: none;
-    background: #35210b;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0.5;
-    line-height: 1.25;
-    padding: 12px 32px;
-    display: inline-block;
-    
-}
-
-.sumit-btn{
-  font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
-    text-transform: none;
-    background: orangered;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0.5;
-    line-height: 1.25;
-    padding: 12px 32px;
-    display: inline-block;
-
-}
