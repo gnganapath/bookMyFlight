@@ -1,8 +1,30 @@
 <section class="container">
   <div class="left-half">
     <article>
-      <h1 (click)="searchFlight()">Left Half</h1>
-      <p>Weekends don't count unless you spend them doing something completely pointless.</p>
+      
+      <form>
+        <div style="display:inline;">
+              <button class="button">Journey</button>
+              <button class="button-seconday">Return</button>
+        </div>        
+        <div>
+            <input type="text" name="default" id="orgin" class="luci-form__input" placeholder="Enter Origin"> 
+        </div>
+        <div>
+            <input type="text" name="default" id="destination" class="luci-form__input" placeholder="Enter Destination"> 
+        </div>
+        <div class="input-group">
+            <input class="luci-form__input"  placeholder="Departure Date" ngx-mydatepicker name="mydate"
+                    [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" (click)="dp.toggleCalendar()"/>   
+                    <!-- [(ngModel)]="model" -->
+        </div>
+        <div>
+            <input type="text" name="default" id="passenger" class="luci-form__input" placeholder="Passenger"> 
+        </div>
+        <div>
+            <input type="button" name="submit" class="sumit-btn"  (click)="searchFlight()" value="Search"/>
+       </div>
+    </form>
     </article>
   </div>
   <div class="right-half">
