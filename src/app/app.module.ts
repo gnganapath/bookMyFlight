@@ -13,6 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppserviceService } from './services/appservice.service';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { MyDatePickerModule } from 'mydatepicker';
 
 
 
@@ -30,6 +31,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
     HttpModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MyDatePickerModule,
     NgxMyDatePickerModule.forRoot()
   ],
   providers: [AppserviceService],

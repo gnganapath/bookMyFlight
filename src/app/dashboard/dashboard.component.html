@@ -1,6 +1,6 @@
 <section class="Result-container">
-    <div class="left-half" >
-        <aside >
+    <div class="left-half"  @explainerAnim>
+        <aside class = "formAnim">
             <div class="onereurn-btn">
                 <button class="button"  [ngClass]="{ 'button': isOneWay, 'button-seconday': !isOneWay  }" (click)='TripType(1)'>One way</button>
                 <button class="button-seconday" [ngClass]="{ 'button-seconday': isOneWay, 'button': !isOneWay  }"(click)='TripType(2)'>Return</button>
@@ -13,14 +13,12 @@
                 <input type="text"  class="tw-form__input" placeholder="Enter Destination" [formControl]= "destCtrl"> 
                 <div *ngIf="destCtrl.touched" style="color:#fff"> <span *ngIf="destCtrl.status == 'INVALID'" >Enter the valid Destination City! </span></div>
             </div>
-            <div>
-                <input class="tw-form__input"  placeholder="Departure Date" ngx-mydatepicker name="mydate"
-                        [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" (click)="dp.toggleCalendar()" [formControl]="dateCtrl"/>  
+            <div>                 
+                <my-date-picker  class="tw-form__input" name="mydate" [options]="myDatePickerOptions"  placeholder="Depature Date" [(ngModel)]="journeyMydate" required [formControl]="dateCtrl"></my-date-picker>                
                 <div *ngIf="dateCtrl.touched" style="color:#fff"> <span *ngIf="dateCtrl.status == 'INVALID'" >Enter the Journey Date! </span></div>
             </div>
-            <div *ngIf="returnTrip">
-                    <input class="tw-form__input"  placeholder="Return Date" ngx-mydatepicker name="retundate"
-                            [options]="myOptions1" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" (click)="dp.toggleCalendar()" [formControl]="retunCtrl"/>  
+            <div *ngIf="returnTrip">              
+                    <my-date-picker  class="tw-form__input" name="mydate" [options]="myDatePickerOptions"  placeholder="Return Date" [(ngModel)]="returnMydate" required [formControl]="retunCtrl"></my-date-picker>                
                     <div *ngIf="retunCtrl.touched" style="color:#fff"> <span *ngIf="retunCtrl.status == 'INVALID'" >Enter the Return Date! </span></div>
                 </div>
             <div>
@@ -33,48 +31,53 @@
        </aside>
    </div>
    <div class="right-half">   
-      <div  [hidden]='!showFlightResult'>     
+        <div @explainerAnim1 class ="bgImg" [hidden]= '!showImgDiv'>
+                <!-- <img class ="imgAnim" src="../../assets/images/flight.jpg" style="width:100%;height:93vh;"/> -->
+                <img class = "imgAnim" src = "../../assets/images/plane.png"  >
+        </div>  
+      <div  [hidden]='!showFlightResult' [@scrollAnimation]="state">     
             <div class="shadowHead">
                 <div class="flex1">  {{ Origin  }} > {{  Destination  }}</div>
                 <div class="flex2"> 
                     <div> Depart: {{ DepartDate }}</div>  <!-- Depart : 21st Feb 2016 -->
-                    <div *ngIf='returnTrip'> Return: {{ ReturnDate }</div> <!--Return : 21st Feb 2016 -->
+                    <div *ngIf='returnTrip'> Return: {{ ReturnDate }}</div> <!--Return : 21st Feb 2016 -->
                 </div>
             </div>
             <!-- <div *ngFor="let item of searchResult" > {{item.airline }} </div> -->
             <div class="resultCard" *ngFor="let flight of searchResult">
-                <div class="priceRow">Rs {{ flight.price }}.00</div>  <!--  Rs 9,500.00 -->
+                <div class="priceRow">Rs {{ flight.price }} 
+                <span class="Mob-Only">{{ flight.origin  }} <img *ngIf="returnTrip" src="assets/images/twoWay.png" /> <i *ngIf="!returnTrip"> > </i> {{ flight.destination  }}</span></div>  <!--  Rs 9,500.00 -->
                 <div class="flexTourDetails">
                     <div class="flexOneWay">
                         <div class="flightNo"> {{ flight.airlineCode }} - {{ flight.flightNumber }}</div> <!-- AI- 202 -->
-                        <div class="flightFromTo">  {{ flight.origin  }} > {{ flight.destination  }}</div> <!-- PNQ > DEL -->
+                        <div class="flightFromTo Desk-Only" >  {{ flight.origin  }} > {{ flight.destination  }}</div> <!-- PNQ > DEL -->
                         <div>Depart: {{ flight.jouryDatetime }}</div> <!-- Depart: 10 AM -->
                         <div>Arrive: {{ flight.arriveDatetime }}</div> <!-- Arrive: 12:00 PM -->
                     </div>
                     <div class="flexReturn" *ngIf="returnTrip">
                             <div class="flightNo"> {{ flight.rairlineCode }} - {{ flight.rflightNumber }}</div>
-                            <div class="flightFromTo"> {{ flight.destination  }} > {{ flight.origin  }}</div>
+                            <div class="flightFromTo Desk-Only"> {{ flight.destination  }} > {{ flight.origin  }}</div>
                             <div>Depart: {{ flight.rjouryDatetime }}</div>
-                            <div>Arrive:  {{ flight.rarriveDatetime }}</div>
-                        </div>
-                        <div class="flexBookticket">                    
-                            <input type="button" name="submit" class="bookTicket-btn"  (click)="BookThisFlight(flight)" value="Book This Flight"/>
-                        </div>
+                            <div>Arrive: {{ flight.rarriveDatetime }}</div>
+                    </div>
+                    <div class="flexReturn" *ngIf="!returnTrip" style="visibility:hidden;">-</div>
+                    <div class="flexBookticket">                    
+                        <input type="button" name="submit" class="bookTicket-btn"  (click)="BookThisFlight(flight)" value="Book This Flight"/>
+                    </div>
 
                 </div>
                 </div>                  
         </div> 
-        <div  [hidden]='!showNOFlightResult'>  
+        <div  [hidden]='!showNOFlightResult' >  
                 <div class="showNoFlightResult">
-
                         <figure>
-                                <img src="assets/img/sorry.png" alt="The Pulpit Rock" width="304" height="128">
+                                <img src="assets/images/sorry.png" alt="The Pulpit Rock" width="304" height="128">
                                 <figcaption>
                                     <div>
-                                        <p>There is no Flight avaialble! <br> Kindly re-try with other Timings ....</p>
+                                        <p>There is no Flight avaialble! <br> Kindly re-try  other Date/Time....</p>
                                     </div>
                                 </figcaption>
-                              </figure>
+                        </figure>
                       </div> 
         </div> 
         
