@@ -52,6 +52,7 @@ export class DashboardComponent implements OnInit {
 
   flightResult;
   searchResult =[];
+  retrunResult = [];
   originplace; destinationplace;
   originCtrl = new FormControl('',[Validators.required]);
   destCtrl = new FormControl('',[Validators.required]);
@@ -63,7 +64,7 @@ export class DashboardComponent implements OnInit {
   myOptions1: INgxMyDpOptions = {  dateFormat: 'dd/mm/yyyy', };
 
   model: any = { date: { year: 2018, month: 2, day: 1 } };
-  
+
   Origin; Destination;
   DepartDate; ReturnDate;
   JflightCharge; 
@@ -72,6 +73,7 @@ export class DashboardComponent implements OnInit {
   RflightCode; RflightFromTo;
   RDepartTimes; RArriveTimes;
   showFlightResult = false;
+  showNOFlightResult = false;
   isOneWay = true;
   oneWayTrip = true;
   returnTrip = false;
@@ -134,26 +136,49 @@ export class DashboardComponent implements OnInit {
 
     this.originCtrl.setValue(ori.toString().toUpperCase());
     this.destCtrl.setValue(dest.toString().toUpperCase()); 
-    this.showFlightResult = true;
+    
 
-      this.flightResult.forEach(element => {
-          let start = element.ori.toString().toUpperCase();          
-          let end = element.dest.toString().toUpperCase();          
-          let deptD = element.deptDate;         
+      this.flightResult.forEach(element => {        
+          var start = element.ori.toString().toUpperCase();          
+          var end = element.dest.toString().toUpperCase();          
+          var deptD = element.deptDate;         
 
           if(start == ori.toString().toUpperCase() &&  end == dest.toString().toUpperCase() && deptD == jdate.formatted ){
             //console.log(element);
             this.Origin = start;
             this.Destination = end;
-            this.DepartDate = deptD;  this.ReturnDate = deptD;            
+            this.DepartDate = deptD;         
             this.searchResult.push(element)
           }
+          if(this.returnTrip){
+            let rdate = this.retunCtrl.setValue('28/02/2018');
+            console.log(start,end,deptD,'inside retrun start,end depid', dest.toString().toUpperCase(),ori.toString().toUpperCase())
+            if(start == dest.toString().toUpperCase() && end == ori.toString().toUpperCase()  && deptD != rdate){
+             this.searchResult.forEach(e => { 
+              var newObj = e;
+              Object.assign(newObj, { rairlineCode:element.airlineCode  });
+              Object.assign(newObj, { rflightNumber:element.flightNumber });
+              Object.assign(newObj, { rjouryDatetime:element.jouryDatetime  });
+              Object.assign(newObj, { rarriveDatetime:element.arriveDatetime  });
+            })
+            //this.searchResult['rairlineCode'] = element.airlineCode
+          }
+      }
       });
+
       this.searchResult.sort(function(a, b) {
         return a.jouryDatetime - b.jouryDatetime;
     });
 
-      console.log(this.searchResult, " display result")
+      console.log(this.searchResult, " display result",this.searchResult.length)
+      if(this.searchResult.length > 0 ){ 
+        this.showFlightResult = true;
+        this.showNOFlightResult = false
+      }
+      else{
+        this.showFlightResult = false;
+        this.showNOFlightResult = true;
+      }
       }
 
   ngOnInit() {
@@ -179,6 +204,7 @@ checkScroll() {
 }
 TripType(opt){
   this.isOneWay = !this.isOneWay;
+  this.showFlightResult = false;
   if(opt == 1){
     this.oneWayTrip =true;
     this.returnTrip = false;
@@ -188,7 +214,9 @@ TripType(opt){
     this.returnTrip = true;
   }
 }
-
+BookThisFlight(flight){
+ console.log(flight) 
+}
 
   
 

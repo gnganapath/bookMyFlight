@@ -13,6 +13,7 @@
         border: 0px;
         outline:0;
         width: 130px;
+        font-weight: bold;
 }
 
 %buttonSecondaryClass{
@@ -34,9 +35,29 @@
       border-radius: 2px;
       outline:0;
       width: 130px;
+      font-weight: bold;
 }
 
 %submitBookBtnClass{
+      font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
+      text-transform: none;
+      background: orangered;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: 0.5;
+      line-height: 1.25;
+      padding: 5px 20px;
+      display: inline-block;
+      border: 0px;
+      outline:0;
+      border-radius: 3px;
+}
+%disableSunBtn{
+      opacity: 0.5;
+      pointer-events: none;
       font-family: "Source Sans Pro", Arial, "Helvetica Neue", Helvetica, sans-serif;
       text-transform: none;
       background: orangered;
@@ -117,6 +138,9 @@ section.Result-container{
               .sumit-btn{
                 @extend %submitBookBtnClass;
               }      
+              .disableSunBtn{
+                @extend %disableSunBtn;
+              }
               div.ngxmdp div.selector {
                 position: absolute !important;
                 left: 100px !important;
@@ -191,6 +215,20 @@ section.Result-container{
               }
           }
 
+        }
+      }
+      div.showNoFlightResult{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top:30%;
+        div{
+          margin-top:40px;
+          line-height: 20px;
+          p{
+            font-weight: bold;
+            color:#AB6565;
+          }
         }
       }
   }
