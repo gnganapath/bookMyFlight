@@ -1,9 +1,9 @@
 <section class="Result-container">
-    <div class="left-half">
-        <aside>
-            <div style="display:inline;">
-                <button class="button"  >One way</button>
-                <button class="button-seconday">Return</button>
+    <div class="left-half" >
+        <aside >
+            <div class="onereurn-btn">
+                <button class="button"  [ngClass]="{ 'button': isOneWay, 'button-seconday': !isOneWay  }" (click)='TripType(1)'>One way</button>
+                <button class="button-seconday" [ngClass]="{ 'button-seconday': isOneWay, 'button': !isOneWay  }"(click)='TripType(2)'>Return</button>
             </div>        
             <div>
                 <input type="text"  class="tw-form__input" placeholder="Enter Origin" [formControl]="originCtrl"> 
@@ -15,6 +15,10 @@
                 <input class="tw-form__input"  placeholder="Departure Date" ngx-mydatepicker name="mydate"
                         [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" (click)="dp.toggleCalendar()" [formControl]="dateCtrl"/>  
             </div>
+            <div *ngIf="returnTrip">
+                    <input class="tw-form__input"  placeholder="Return Date" ngx-mydatepicker name="retundate"
+                            [options]="myOptions1" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" (click)="dp.toggleCalendar()" [formControl]="retunCtrl"/>  
+                </div>
             <div>
                 <input type="text" name="default" id="passenger" class="tw-form__input" placeholder="Passenger" [formControl]="passgenCtrl"> 
             </div>
@@ -23,36 +27,38 @@
         </div>
        </aside>
    </div>
-   <div class="right-half">        
-      <div class="shadowHead">
-          <div class="flex1">Origin > Destination </div>
-          <div class="flex2"> 
-             <div> Depart : 21st Feb 2016</div>
-             <div> Return : 21st Feb 2016</div>
-          </div>
-      </div>
-      <!-- <div *ngFor="let item of searchResult" > {{item.airline }} </div> -->
-      <div class="resultCard">
-          <div class="priceRow"> Rs 9,500.00 </div>
-          <div class="flexTourDetails">
-              <div class="flexOneWay">
-                  <div class="flightNo">AI- 202</div>
-                  <div class="flightFromTo">PNQ > DEL</div>
-                  <div>Depart: 10 AM</div>
-                  <div>Arrive: 12:00 PM</div>
-              </div>
-              <div class="flexReturn">
-                    <div class="flightNo">AI- 203</div>
-                    <div class="flightFromTo">DEL > PNQ </div>
-                    <div>Depart: 10 AM</div>
-                    <div>Arrive: 12:00 PM</div>
+   <div class="right-half">   
+      <div  [hidden]='!showFlightResult'>     
+            <div class="shadowHead">
+                <div class="flex1">  {{ Origin  }} > {{  Destination  }}</div>
+                <div class="flex2"> 
+                    <div> Depart: {{ DepartDate }}</div>  <!-- Depart : 21st Feb 2016 -->
+                    <div> Return: {{ ReturnDate }}</div> <!--Return : 21st Feb 2016 -->
                 </div>
-                <div class="flexBookticket">                    
-                    <input type="button" name="submit" class="bookTicket-btn"  (click)="searchFlight()" value="Book This Flight"/>
-                </div>
+            </div>
+            <!-- <div *ngFor="let item of searchResult" > {{item.airline }} </div> -->
+            <div class="resultCard" *ngFor="let flight of searchResult">
+                <div class="priceRow">Rs {{ flight.price }}.00</div>  <!--  Rs 9,500.00 -->
+                <div class="flexTourDetails">
+                    <div class="flexOneWay">
+                        <div class="flightNo"> {{ flight.airlineCode }} - {{ flight.flightNumber }}</div> <!-- AI- 202 -->
+                        <div class="flightFromTo">  {{ flight.origin  }} > {{ flight.destination  }}</div> <!-- PNQ > DEL -->
+                        <div>Depart: {{ flight.jouryDatetime }}</div> <!-- Depart: 10 AM -->
+                        <div>Arrive: {{ flight.arriveDatetime }}</div> <!-- Arrive: 12:00 PM -->
+                    </div>
+                    <div class="flexReturn" *ngIf="returnTrip">
+                            <div class="flightNo"> {{ RflightCode }}</div>
+                            <div class="flightFromTo"> {{ RflightFromTo  }}</div>
+                            <div>Depart: {{ RDepartTimes }}</div>
+                            <div>Arrive: {{ RArriveTimes }}</div>
+                        </div>
+                        <div class="flexBookticket">                    
+                            <input type="button" name="submit" class="bookTicket-btn"  (click)="searchFlight()" value="Book This Flight"/>
+                        </div>
 
-          </div>
-      </div>
-   
+                </div>
+                </div>    
+        </div> 
+      
   </div>
 </section>

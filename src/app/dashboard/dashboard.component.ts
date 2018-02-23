@@ -1,36 +1,88 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,HostListener, ElementRef } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { FormsModule, FormGroup, FormControl, FormBuilder, NgForm, Validator, Validators } from '@angular/forms';
 import { AppserviceService } from '../services/appservice.service';
 import {INgxMyDpOptions, IMyDateModel} from 'ngx-mydatepicker';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  animations: [
+    trigger('scrollAnimation', [
+      state('show', style({
+        opacity: 1,
+        transform: "translateX(0)"
+      })),
+      state('hide',   style({
+        opacity: 0,
+        transform: "translateX(-100%)"
+      })),
+      transition('show => hide', animate('1200ms ease-out')),
+      transition('hide => show', animate('1200ms ease-in'))
+    ]),
+    trigger('scrollAnimation1', [
+      state('show', style({
+        opacity: 1,
+        transform: "translateX(0)"
+      })),
+      state('hide',   style({
+        opacity: 0,
+        transform: "translateX(100%)"
+      })),
+      transition('show => hide', animate('1200ms ease-out')),
+      transition('hide => show', animate('1200ms ease-in'))
+    ]),
+    trigger('scrollAnimation2', [
+      state('show', style({
+        opacity: 1,
+        transform: "translateY(0)"
+      })),
+      state('hide',   style({
+        opacity: 0,
+        transform: "translateY(100%)"
+      })),
+      transition('show => hide', animate('1000ms ease-out')),
+      transition('hide => show', animate('1500ms ease-in'))
+    ])
+  ]
 })
 export class DashboardComponent implements OnInit {
 
-  searchResult;
-  origin; destination;
+  flightResult;
+  searchResult =[];
+  originplace; destinationplace;
   originCtrl = new FormControl('',[Validators.required]);
   destCtrl = new FormControl('',[Validators.required]);
   dateCtrl = new FormControl('',[Validators.required]);
+  retunCtrl = new FormControl('',[Validators.required]);
   passgenCtrl = new FormControl('',[Validators.required]);
 
-  myOptions: INgxMyDpOptions = { 
-             dateFormat: 'dd/mm/yyyy',
-             };
+  myOptions: INgxMyDpOptions = {  dateFormat: 'dd/mm/yyyy', };
+  myOptions1: INgxMyDpOptions = {  dateFormat: 'dd/mm/yyyy', };
 
-            model: any = { date: { year: 2013, month: 1, day: 1 } };
+  model: any = { date: { year: 2018, month: 2, day: 1 } };
+  
+  Origin; Destination;
+  DepartDate; ReturnDate;
+  JflightCharge; 
+  JflightCode;  JflightFromTo;
+  JDepartTimes; JArriveTimes;
+  RflightCode; RflightFromTo;
+  RDepartTimes; RArriveTimes;
+  showFlightResult = false;
+  isOneWay = true;
+  oneWayTrip = true;
+  returnTrip = false;
 
 
-  constructor(private appservice: AppserviceService) { 
+  constructor(private appservice: AppserviceService, public el: ElementRef) { 
     
       this.appservice.searchFlight(this.jnry).subscribe( (data:any) =>{
-      console.log(data);
-      this.searchResult = data;
-      this.searchResult.forEach(element => {
+     // console.log(data);
+      this.flightResult = data;
+      this.flightResult.forEach(element => {
         var newObj = element;
         
           if(element.origin == 'PNQ'){
@@ -39,20 +91,33 @@ export class DashboardComponent implements OnInit {
           if(element.destination == 'DEL'){
           Object.assign(newObj, { dest:'DELHI'  });
           }
+          if(element.origin == 'DEL'){
+            Object.assign(newObj, { ori:'DELHI'  });
+            }
+            if(element.destination == 'PNQ'){
+            Object.assign(newObj, { dest:'PUNE'  });
+            }
+            
         
-        if(element.departure != ' ')
+        if(element.departure != '')
         {
-          let j =  element.jouryDate = element.departure.slice(0,9);
-          let jt = element.jouryDatetime = element.departure.slice(10,15);
-          console.log(j,jt)
+          let j =  element.jouryDate = element.departure.slice(0,10);
+          Object.assign(newObj, { deptDate:j  });
+          let jt = element.jouryDatetime = element.departure.slice(11,15);
+          Object.assign(newObj, { deptTime: jt });
+          //console.log(j,'depart data ---time ->',jt)
         }
         if(element.arrival != '')
         {
-          return (element.arriveDate = element.arrival.slice(0,9)) && (element.arriveDatetime = element.arrival.slice(10,15))
+          let a = element.arriveDate = element.arrival.slice(0,10);
+          Object.assign(newObj, { arrvDate:a  });
+          let at = element.arriveDatetime = element.arrival.slice(11,15)
+          Object.assign(newObj, { arrvTime:at  });
+          //console.log(a,'arrive data ---time ->',at)
         }
       });
 
-      console.log('key added / modifed data', this.searchResult)
+      console.log('key added / modifed data', this.flightResult)
     });
 
     
@@ -60,24 +125,36 @@ export class DashboardComponent implements OnInit {
 
    jnry = { origin:'pnq', destination:'del'};
    searchFlight(){
+    this.searchResult = [];
+    let ori = this.originCtrl.value; 
+    let dest = this.destCtrl.value; 
+    let jdate = this.dateCtrl.value;
+    let pass = this.passgenCtrl.value;
 
-   let ori = this.originCtrl.value;
-   let dest = this.destCtrl.value;
-   let jdate = this.dateCtrl.value;
-   let pass = this.passgenCtrl.value;
 
     this.originCtrl.setValue(ori.toString().toUpperCase());
     this.destCtrl.setValue(dest.toString().toUpperCase()); 
+    this.showFlightResult = true;
 
-   this.searchResult.forEach(element => {
-     let o = element.ori.toString().toUpperCase(); let d = element.dest.toString().toUpperCase()
-    console.log(o,d)
-     if(o == ori.toString().toUpperCase() &&  d == dest.toString().toUpperCase()  ){
-      console.log(element)
-     }
-   });
+      this.flightResult.forEach(element => {
+          let start = element.ori.toString().toUpperCase();          
+          let end = element.dest.toString().toUpperCase();          
+          let deptD = element.deptDate;         
 
-   }
+          if(start == ori.toString().toUpperCase() &&  end == dest.toString().toUpperCase() && deptD == jdate.formatted ){
+            //console.log(element);
+            this.Origin = start;
+            this.Destination = end;
+            this.DepartDate = deptD;  this.ReturnDate = deptD;            
+            this.searchResult.push(element)
+          }
+      });
+      this.searchResult.sort(function(a, b) {
+        return a.jouryDatetime - b.jouryDatetime;
+    });
+
+      console.log(this.searchResult, " display result")
+      }
 
   ngOnInit() {
   }
@@ -86,6 +163,32 @@ export class DashboardComponent implements OnInit {
   onDateChanged(event: IMyDateModel): void {
     // date selected
 }
+state ='hide';
+@HostListener('window:beforeunload', ['$event'])
+checkScroll() {
+  const componentPosition = this.el.nativeElement.offsetTop
+  const scrollPosition = window.pageYOffset
+
+  if (scrollPosition >= componentPosition) {
+    this.state = 'show'
+  } 
+  // else {
+  //   this.state = 'hide'
+  // }
+
+}
+TripType(opt){
+  this.isOneWay = !this.isOneWay;
+  if(opt == 1){
+    this.oneWayTrip =true;
+    this.returnTrip = false;
+  }
+  else{
+    this.oneWayTrip =false;
+    this.returnTrip = true;
+  }
+}
+
 
   
 
