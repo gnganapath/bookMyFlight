@@ -353,7 +353,7 @@ section.Result-container{
     }
   }
 }
-@media only screen and (max-width:1024px) and (orientation: portrait){
+@media only screen and (min-width:1024px) and (orientation: portrait){
   section.Result-container{
     div.left-half{     
     }
